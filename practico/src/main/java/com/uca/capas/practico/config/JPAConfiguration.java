@@ -1,4 +1,4 @@
-package com.uca.capas.config;
+package com.uca.capas.practico.config;
 
 import java.util.Properties;
 import javax.sql.DataSource;
