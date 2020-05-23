@@ -1,7 +1,11 @@
 package com.uca.capas.practico.domain;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,106 +14,118 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
+
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(schema = "public", name = "contribuyente")
+@Table(schema="public",name="contribuyente")
 public class Contribuyente {
 	
 	@Id
-	@GeneratedValue(generator="contribuyente_c_contribuyente_seq", strategy = GenerationType.AUTO)
-	@SequenceGenerator(name = "contribuyente_c_contribuyente_seq", sequenceName = "public.contribuyente_c_contribuyente_seq", allocationSize = 1)
-	@Column(name = "c_contribuyente")
-	private Integer ccontribuyente;
+	@Column(name="c_contribuyente")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer c_contribuyente;
 	
-	@Column(name = "s_nombre")
-	private String snombre;
-	
-	@Column(name = "s_apellido")
-	private String sapellido;
-	
-	@Column(name = "s_nit")
-	private String snit;
-	
-	@NotNull(message = "El campo Fecha no puede quedar vacio")
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	@Column(name = "f_fecha_ingreso")
-	private Date fingreso;
-	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "c_importancia")
-	private Importancia importancia;
+	private Importancia c_importancia;
 	
 	@Transient
-	private Integer cimportancia;
+	private Integer c_importanciafk;
 	
+	@Column(name="s_nombre")
+	@Size(max=30,message="No puede ser mayor a 30")
+	@NotEmpty(message="No puede estar vacio")
+	private String s_nombre;
+	
+	@Column(name="s_apellido")
+	@Size(max=30,message="No puede ser mayor a 30")
+	@NotEmpty(message="No puede estar vacio")
+	private String s_apellido;
+	
+	@Column(name="s_nit")
+	@Size(max=30,message="No puede ser mayor a 14")
+	@NotEmpty(message="No puede estar vacio")
+	private String s_nit;
+	
+	@Column(name="f_fecha_ingreso")
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@Temporal(TemporalType.DATE)
+	private Date f_fecha_ingreso;
+	
+	
+	
+	
+	public Integer getC_importanciafk() {
+		return c_importanciafk;
+	}
+
+	public void setC_importanciafk(Integer c_importanciafk) {
+		this.c_importanciafk = c_importanciafk;
+	}
+
 	public Contribuyente() {
-		//constructor vacio
+		super();
 	}
 
-	public Integer getCcontribuyente() {
-		return ccontribuyente;
+	public Integer getC_contribuyente() {
+		return c_contribuyente;
 	}
 
-	public void setCcontribuyente(Integer ccontribuyente) {
-		this.ccontribuyente = ccontribuyente;
+	public void setC_contribuyente(Integer c_contribuyente) {
+		this.c_contribuyente = c_contribuyente;
 	}
 
-	public String getSnombre() {
-		return snombre;
+	public Importancia getC_importancia() {
+		return c_importancia;
 	}
 
-	public void setSnombre(String snombre) {
-		this.snombre = snombre;
+	public void setC_importancia(Importancia c_importancia) {
+		this.c_importancia = c_importancia;
 	}
 
-	public String getSapellido() {
-		return sapellido;
+	public String getS_nombre() {
+		return s_nombre;
 	}
 
-	public void setSapellido(String sapellido) {
-		this.sapellido = sapellido;
+	public void setS_nombre(String s_nombre) {
+		this.s_nombre = s_nombre;
 	}
 
-	public String getSnit() {
-		return snit;
+	public String getS_apellido() {
+		return s_apellido;
 	}
 
-	public void setSnit(String snit) {
-		this.snit = snit;
+	public void setS_apellido(String s_apellido) {
+		this.s_apellido = s_apellido;
 	}
 
-	public Date getFingreso() {
-		return fingreso;
+	public String getS_nit() {
+		return s_nit;
+	}
+
+	public void setS_nit(String s_nit) {
+		this.s_nit = s_nit;
+	}
+
+	public String getF_fecha_ingreso() throws ParseException{
+		DateFormat formatter = new SimpleDateFormat("dd/mm/yyyy");
+		Date date2 = new SimpleDateFormat("yyyy-mm-dd").parse(String.valueOf(f_fecha_ingreso));
+		String strDate = formatter.format(date2);
+		return strDate;
+	}
+
+	public void setF_fecha_ingreso(Date f_fecha_ingreso) {
+		this.f_fecha_ingreso = f_fecha_ingreso;
 	}
 	
-	public String getFingresoDelegate() {
-		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-		return formato.format(fingreso);
-	}
-
-	public void setFingreso(Date fingreso) {
-		this.fingreso = fingreso;
-	}
-
-	public Importancia getImportancia() {
-		return importancia;
-	}
-
-	public void setImportancia(Importancia importancia) {
-		this.importancia = importancia;
-	}
-
-	public Integer getCimportancia() {
-		return cimportancia;
-	}
-
-	public void setCimportancia(Integer cimportancia) {
-		this.cimportancia = cimportancia;
-	}
-
+	
+	
 }

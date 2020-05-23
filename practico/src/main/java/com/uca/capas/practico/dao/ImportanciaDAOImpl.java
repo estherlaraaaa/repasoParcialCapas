@@ -12,27 +12,23 @@ import com.uca.capas.practico.domain.Importancia;
 @Repository
 public class ImportanciaDAOImpl implements ImportanciaDAO {
 	
-	@PersistenceContext(unitName = "capas")
-	EntityManager entityManager;
-
+	@PersistenceContext(unitName="practico")
+	private EntityManager entityManager;
+	
 	@Override
 	public List<Importancia> findAll() throws DataAccessException {
-
-		StringBuffer sb = new StringBuffer();
+		StringBuffer sb =  new StringBuffer();
 		sb.append("select * from public.importancia");
-		Query query = entityManager.createNativeQuery(sb.toString(), Importancia.class);
-		List<Importancia> res = query.getResultList();
-		
-		return res;
-		
+		Query  query = entityManager.createNativeQuery(sb.toString(),Importancia.class);
+		List<Importancia>resultset=query.getResultList();
+		return resultset;
 	}
 
 	@Override
-	public Importancia findOne(Integer cimportancia) throws DataAccessException {
-		
-		Importancia i = entityManager.find(Importancia.class, cimportancia);
-		return i;
-		
+	public Importancia findOne(Integer code) throws DataAccessException {
+		Importancia importancia = entityManager.find(Importancia.class,code);
+		return importancia;
+
 	}
 
 }

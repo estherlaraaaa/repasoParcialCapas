@@ -12,16 +12,18 @@ import com.uca.capas.practico.domain.Importancia;
 public class ImportanciaServiceImpl implements ImportanciaService {
 	
 	@Autowired
-	ImportanciaDAO importanciaDAO;
-
+	ImportanciaDAO importanciaDao;
+	
 	@Override
 	public List<Importancia> findAll() throws DataAccessException {
-		return importanciaDAO.findAll();
+		// TODO Auto-generated method stub
+		return importanciaDao.findAll();
 	}
 
 	@Override
-	public Importancia findOne(Integer cimportancia) throws DataAccessException {
-		return importanciaDAO.findOne(cimportancia);
+	public Importancia findOne(Integer c_importancia) throws DataAccessException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

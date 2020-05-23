@@ -8,7 +8,9 @@ import com.uca.capas.practico.domain.Contribuyente;
 public interface ContribuyenteDAO {
 	
 	public List<Contribuyente> findAll() throws DataAccessException;
+
+	public Contribuyente findOne(Integer code) throws DataAccessException;
 	
-	public void save(Contribuyente c) throws DataAccessException;
+	public void save(Contribuyente contribuyente) throws DataAccessException;
 
 }

@@ -14,24 +14,20 @@ import com.uca.capas.practico.domain.Contribuyente;
 public class ContribuyenteServiceImpl implements ContribuyenteService {
 	
 	@Autowired
-	ContribuyenteDAO contribuyenteDAO;
+	ContribuyenteDAO contribuyenteDao;
 	
-	@Autowired
-	ImportanciaService importanciaService;
-
 	@Override
 	public List<Contribuyente> findAll() throws DataAccessException {
-		return contribuyenteDAO.findAll();
+		// TODO Auto-generated method stub
+		return contribuyenteDao.findAll();
 	}
 
+
+
 	@Override
-	@Transactional
-	public void save(Contribuyente c) throws DataAccessException {
-		
-		c.setFingreso(new Date());
-		c.setImportancia(importanciaService.findOne(c.getCimportancia()));
-		contribuyenteDAO.save(c);	
-		
+	public void save(Contribuyente contribuyente) throws DataAccessException {
+		// TODO Auto-generated method stub
+		contribuyenteDao.save(contribuyente);
 	}
 
 }

@@ -9,6 +9,5 @@ public interface ContribuyenteService {
 	
 	public List<Contribuyente> findAll() throws DataAccessException;
 	
-	public void save(Contribuyente c) throws DataAccessException;
-
+	public void save(Contribuyente contribuyente) throws DataAccessException;
 }

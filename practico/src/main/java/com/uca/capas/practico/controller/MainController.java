@@ -1,10 +1,14 @@
 package com.uca.capas.practico.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,50 +22,73 @@ import com.uca.capas.practico.service.ImportanciaService;
 public class MainController {
 	
 	@Autowired
-	ContribuyenteService contribuyenteService;
-	
-	@Autowired
 	ImportanciaService importanciaService;
 	
-	@RequestMapping("/")
-	public ModelAndView index() {
-		
+	@Autowired
+	ContribuyenteService contribuyenteService;
+	
+	
+	@RequestMapping("/inicio")
+	public ModelAndView inicio() {
 		ModelAndView mav = new ModelAndView();
-		List<Importancia> importancias = importanciaService.findAll();
-		Contribuyente contribuyente = new Contribuyente();
-		
-		mav.addObject("contribuyente", contribuyente);
-		mav.addObject("importancias", importancias);
+		Contribuyente contribuyente =  new Contribuyente();
+		List<Importancia> importancias= null;
+		try {
+			importancias =  importanciaService.findAll();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		mav.addObject("contribuyente",contribuyente);
+		mav.addObject("importancias",importancias);
 		mav.setViewName("index");
-		
 		return mav;
-		
-	}
-	
-	@RequestMapping("/guardarCont")
-	public ModelAndView guardarCont(@ModelAttribute Contribuyente c) {
-		
-		contribuyenteService.save(c);
-		
-		ModelAndView mav = new ModelAndView();
 
-		mav.setViewName("exito");
-		
-		return mav;
-		
 	}
 	
-	@RequestMapping("/contribuyentes")
-	public ModelAndView conts() {
-		
+	@RequestMapping("/formContribuyente")
+	public ModelAndView formulario(@Valid @ModelAttribute Contribuyente contribuyente, BindingResult result) {
 		ModelAndView mav = new ModelAndView();
-		List<Contribuyente> contribuyentes = contribuyenteService.findAll();
+		
+		if(result.hasErrors()) {
+
+			List<Importancia> importancias= null;
+			try {
+				importancias =  importanciaService.findAll();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			mav.addObject("importancias",importancias);
+			mav.setViewName("index");
+		}
+		else {
+			SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd");
+			Date date = new Date(System.currentTimeMillis());
+		    contribuyente.setF_fecha_ingreso(date);
+		    
+		   
+		    contribuyenteService.save(contribuyente);
+
+			mav.setViewName("exito");
+		}
+		
+		
+		return mav;
+
+	}
+	
+	@RequestMapping("/verContribuyentes")
+	public ModelAndView findAll() {
+		ModelAndView mav = new ModelAndView();
+		List<Contribuyente> contribuyentes =null;
+		
+		contribuyentes=contribuyenteService.findAll();
+		
 		
 		mav.addObject("contribuyentes", contribuyentes);
 		mav.setViewName("contribuyentes");
 		
 		return mav;
-		
+
 	}
 
 }
