@@ -27,7 +27,6 @@ public class MainController {
 	@Autowired
 	ContribuyenteService contribuyenteService;
 	
-	
 	@RequestMapping("/inicio")
 	public ModelAndView inicio() {
 		ModelAndView mav = new ModelAndView();
